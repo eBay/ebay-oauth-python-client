@@ -23,7 +23,7 @@ This is created as a Python 2.7 project and can be used as a dependency in Pytho
 
 == Setting up the local environment
 1. Clone or download the repository
-2. To set up your environment, please see the requirements listed in https://github.com/eBay/ebay-oauth-python-client/requirements.txt[requirements.txt]  You can run $ pip install -r requirements.txt command to install all the requirements.
+2. To set up your environment, please see the requirements listed in https://github.com/eBay/ebay-oauth-python-client/blob/master/requirements.txt[requirements.txt]  You can run $ pip install -r requirements.txt command to install all the requirements.
 
 
 == Getting Started
