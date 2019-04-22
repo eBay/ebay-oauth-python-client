@@ -70,3 +70,5 @@ Contributions in terms of patches, features, or comments are always welcome. Ref
 
 == License
 Copyright (c) 2019 eBay Inc.
+
+Use of this source code is governed by an Apache 2.0 license that can be found in the LICENSE file or at https://opensource.org/licenses/Apache-2.0.
