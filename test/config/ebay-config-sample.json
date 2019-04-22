@@ -1,0 +1,15 @@
+{
+	"api.ebay.com": {
+		"devid": "<devid-from-developer-portal>",
+		"certid": "<certid-from-developer-portal>",
+		"redirecturi": "<redirect_uri-from-developer-portal>",
+		"appid": "<appid-from-developer-portal>"
+	},
+	"name": "ebay-config",
+	"api.sandbox.ebay.com": {
+		"devid": "<devid-from-developer-portal>",
+		"certid": "<certid-from-developer-portal>",
+		"redirecturi": "<redirect_uri-from-developer-portal>",
+		"appid": "<appid-from-developer-portal>"
+	}
+}

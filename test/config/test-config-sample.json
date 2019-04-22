@@ -1,0 +1,11 @@
+{
+	"name": "test-config",
+	"production-user": {
+		"username": "<production-username>",
+		"password": "<production-user-password>"
+	},
+	"sandbox-user": {
+		"username": "<sandbox-username>",
+		"password": "<sandbox-user-password>"
+	}
+}

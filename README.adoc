@@ -1,0 +1,72 @@
+= eBay OAuth Client Library
+ifdef::env-github[]
+:outfilesuffix: .adoc
+:note-caption: :bulb:
+endif::[]
+:toc:
+:toclevels: 4
+
+image:https://travis-ci.org/eBay/ebay-oauth-java-client.svg?branch=master["Build Status", link="https://travis-ci.org/eBay/ebay-oauth-java-client"]
+
+image:https://codecov.io/gh/eBay/ebay-oauth-java-client/branch/master/graph/badge.svg["Code Coverage, link="https://codecov.io/gh/eBay/ebay-oauth-java-client"]
+
+image:https://img.shields.io/github/license/eBay/ebay-oauth-java-client.svg["GitHub license",link="https://github.com/eBay/ebay-oauth-java-client/blob/master/LICENSE"]
+
+
+eBay OAuth client library is a simple and easy-to-use library for integrating with eBay OAuth and designed to be used for OAuth 2.0 specification supported by eBay. There are multiple standard clients that can be used with eBay OAuth, such as Spring OAuth client. However, this library in addition to functioning as a simple eBay OAuth client, helps with additional features such as cached App tokens. There are also future enhancements planned to add id_token support, 'login with eBay' support etc.,
+
+== What is OAuth 2.0
+https://tools.ietf.org/html/rfc6749[OAuth 2.0] is the most widely used standard for authentication and authorization for API based access. The complete end to end documentation on how eBay OAuth functions is available at https://developer.ebay.com/api-docs/static/oauth-tokens.html[developer.ebay.com].
+
+== Supported Languages
+This is created as a Python 2.7 project and can be used as a dependency in Python based application
+
+== Setting up the local environment
+1. Clone or download the repository
+2. To set up your environment, please see the requirements listed in https://github.com/eBay/ebay-oauth-python-client/requirements.txt[requirements.txt]  You can run $ pip install -r requirements.txt command to install all the requirements.
+
+
+== Getting Started
+All interactions with this library can be performed using `oauth2api`
+
+== Library Setup
+1. Ensure you have a config file in your source code of type YAML or JSON.
+2. Edit ebay-config-sample.json or ebay-config-sample.yaml file (depending on configuration file type in your client code) with your application credentials (keyset).  This file would hold all your application credentials such as AppId, DevId, and CertId. Refer to https://developer.ebay.com/api-docs/static/creating-edp-account.html[Creating eBay Developer Account] for details on how to get these credentials.
+3. Import oauth2api, credentialutil, model
+4. Define https://developer.ebay.com/api-docs/static/oauth-scopes.html[scopes] to use in your application.  Ensure your keyset have permission to those scope(s)  
+5. Once the application config file is created, call `credentialutil.load(<your-config-location>));` to load the credentials.
+6. Once the credentials are loaded, call any operation on `oauth2api`. 
+ 
+If you are running the GetUserAccessToken.py test script in this package:
+* Edit test-config-sample.yaml with your eBay user crednetials
+* Place chrome driver into test directory
+
+
+== Types of Tokens
+There are mainly two types of tokens in usage.
+
+=== Application Token
+An application token contains an application identity which is generated using `client_credentials` grant type. These application tokens are useful for interaction with application specific APIs such as usage statistics etc.,
+
+=== User Token
+A user token (_access token or refresh token_) contains a user identity and the application's identity. This is usually generated using the `authorization_code` grant type or the `refresh_token` grant type.
+
+== Supported Grant Types for OAuth
+All of the regular OAuth 2.0 specifications such as `client_credentials`, `authorization_code`, and `refresh_token` are all supported. Refer to https://developer.ebay.com/api-docs/static/oauth-tokens.html[eBay Developer Portal]
+
+=== Grant Type: Client Credentials
+This grant type can be performed by simply using `oauth2api.get_application_token`. Read more about this grant type at https://developer.ebay.com/api-docs/static/oauth-client-credentials-grant.html[oauth-client-credentials-grant]
+
+=== Grant Type: Authorization Code
+This grant type can be performed by a two step process. Call `oauth2api.generate_user_authorization_url()` to get the Authorization URL to redirect the user to. Once the user authenticates and approves the consent, the callback need to be captured by the redirect URL setup by the app and then call `oauth2api.exchange_code_for_access_token` to get the refresh and access tokens.
+
+Read more about this grant type at https://developer.ebay.com/api-docs/static/oauth-authorization-code-grant.html[oauth-authorization-code-grant] and https://developer.ebay.com/api-docs/static/oauth-qref-auth-code-grant.html[Quick Reference]
+
+=== Grant Type: Refresh Token
+This grant type can be performed by simply using `oauth2api.exchange_code_for_access_token`. Usually access tokens are short lived and if the access token is expired, the caller can use the refresh token to generate a new access token. Read more about it at https://developer.ebay.com/api-docs/static/oauth-qref-auth-code-grant.html[Using a refresh token to update a user access token]
+
+== Contribution
+Contributions in terms of patches, features, or comments are always welcome. Refer to link:CONTRIBUTING.adoc[CONTRIBUTING] for guidelines. Submit Github issues for any feature enhancements, bugs, or documentation problems as well as questions and comments.
+
+== License
+Copyright (c) 2019 eBay Inc.
