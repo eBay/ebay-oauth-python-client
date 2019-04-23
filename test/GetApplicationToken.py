@@ -18,9 +18,9 @@ limitations under the License.
 """
 import os, sys
 sys.path.insert(0, os.path.join(os.path.split(__file__)[0], '..'))
-from main.oauth2api import oauth2api
-from main.credentialutil import credentialutil
-from main.model.model import environment
+from oauthclient.oauth2api import oauth2api
+from oauthclient.credentialutil import credentialutil
+from oauthclient.model.model import environment
 import unittest
 
 app_scopes = ["https://api.ebay.com/oauth/api_scope", "https://api.ebay.com/oauth/api_scope/buy.item.feed"]
