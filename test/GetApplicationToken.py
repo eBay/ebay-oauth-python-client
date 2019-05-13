@@ -30,7 +30,7 @@ class TestGetApplicationCredential(unittest.TestCase):
 
         
     def test_invalid_oauth_scope(self):
-        config_path = os.path.join(os.path.split(__file__)[0], 'config\\ebay-config-sample.yaml')
+        config_path = os.path.join(os.path.split(__file__)[0], 'config' ,'ebay-config-sample.yaml')
         credentialutil.load(config_path)
         oauth2api_inst = oauth2api()
         app_token = oauth2api_inst.get_application_token(environment.SANDBOX, invalid_app_scopes)
@@ -40,7 +40,7 @@ class TestGetApplicationCredential(unittest.TestCase):
     
 
     def test_client_credentials_grant_sandbox(self):
-        config_path = os.path.join(os.path.split(__file__)[0], 'config\\ebay-config-sample.yaml')
+        config_path = os.path.join(os.path.split(__file__)[0], 'config' ,'ebay-config-sample.yaml')
         credentialutil.load(config_path)        
         oauth2api_inst = oauth2api()
         app_token = oauth2api_inst.get_application_token(environment.SANDBOX, app_scopes)
@@ -51,7 +51,7 @@ class TestGetApplicationCredential(unittest.TestCase):
 
         
     def test_client_credentials_grant_production(self):
-        config_path = os.path.join(os.path.split(__file__)[0], 'config\\ebay-config-sample.yaml')
+        config_path = os.path.join(os.path.split(__file__)[0], 'config' ,'ebay-config-sample.yaml')
         credentialutil.load(config_path)
         oauth2api_inst = oauth2api()
         app_token = oauth2api_inst.get_application_token(environment.PRODUCTION, app_scopes)
