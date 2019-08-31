@@ -45,7 +45,7 @@ def read_user_info(conf = None):
         
 def get_authorization_code(signin_url):
 
-    user_config_path = os.path.join(os.path.split(__file__)[0], 'config\\test-config-sample.yaml')
+    user_config_path = os.path.join(os.path.join(os.path.split(__file__)[0], 'config'), 'test-config-sample.yaml')
     read_user_info(user_config_path)
     
     env_key = production_key
