@@ -16,17 +16,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import json
-from urllib.parse import urlencode, quote_plus
+import json, os, sys
+from urllib.parse import urlencode
 import requests
-import logging
 from .model import util
 from datetime import datetime, timedelta
 from .credentialutil import credentialutil
 from .model.model import oAuth_token
 
-LOGFILE = 'eBay_Oauth_log.txt'
-logging.basicConfig(level=logging.DEBUG, filename=LOGFILE, format="%(asctime)s: %(levelname)s - %(funcName)s: %(message)s", filemode='w')
+
+
+import logging
+logger = logging.getLogger(str(os.getpid()) +'."'+__file__+'"')
+# check if there are parents handlers. If not then add console output
+if len(logging.getLogger(str(os.getpid())).handlers) == 0:
+	logger.setLevel(logging.DEBUG)
+	fh = logging.StreamHandler(sys.stdout)
+	fh.setLevel(logging.DEBUG)
+	logger.addHandler(fh)
+logger.debug('Loaded '+ __file__)
 
 
 class oauth2api(object):
@@ -79,13 +87,13 @@ class oauth2api(object):
 
         else:
             token.error = str(resp.status_code) + ': ' + content['error_description']
-            logging.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
-            logging.error("Error: %s - %s", content['error'], content['error_description'])
+            logger.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
+            logger.error("Error: %s - %s", content['error'], content['error_description'])
         return token
 
 
     def exchange_code_for_access_token(self, env_type, code):
-        logging.info("Trying to get a new user access token ... ")
+        logger.info("Trying to get a new user access token ... ")
         credential = credentialutil.get_credentials(env_type)
 
         headers = util._generate_request_headers(credential)
@@ -102,8 +110,8 @@ class oauth2api(object):
             token.refresh_token_expiry = datetime.utcnow()+timedelta(seconds=int(content['refresh_token_expires_in']))-timedelta(minutes=5)
         else:
             token.error = str(resp.status_code) + ': ' + content['error_description']
-            logging.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
-            logging.error("Error: %s - %s", content['error'], content['error_description'])
+            logger.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
+            logger.error("Error: %s - %s", content['error'], content['error_description'])
         return token
 
 
@@ -112,7 +120,7 @@ class oauth2api(object):
         refresh token call
         """
 
-        logging.info("Trying to get a new user access token ... ")
+        logger.info("Trying to get a new user access token ... ")
 
         credential = credentialutil.get_credentials(env_type)
 
@@ -128,6 +136,6 @@ class oauth2api(object):
             token.token_expiry = datetime.utcnow()+timedelta(seconds=int(content['expires_in']))-timedelta(minutes=5)
         else:
             token.error = str(resp.status_code) + ': ' + content['error_description']
-            logging.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
-            logging.error("Error: %s - %s", content['error'], content['error_description'])
+            logger.error("Unable to retrieve token.  Status code: %s - %s", resp.status_code, requests.status_codes._codes[resp.status_code])
+            logger.error("Error: %s - %s", content['error'], content['error_description'])
         return token
