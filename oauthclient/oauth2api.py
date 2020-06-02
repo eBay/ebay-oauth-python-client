@@ -120,7 +120,7 @@ class oauth2api(object):
         refresh token call
         """
 
-        logger.info("Trying to get a new user access token ... ")
+        logger.debug("Trying to get a new user access token ... ")
 
         credential = credentialutil.get_credentials(env_type)
 
