@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Copyright 2019 eBay Inc.
- 
+
 Licensed under the Apache License, Version 2.0 (the "License");
 You may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -15,9 +15,20 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import yaml, json
+import yaml, json, os, sys
+from .model.model import environment, credentials
+
+
 import logging
-from model.model import environment, credentials
+logger = logging.getLogger(str(os.getpid()) +'."'+__file__+'"')
+# check if there are parents handlers. If not then add console output
+if len(logging.getLogger(str(os.getpid())).handlers) == 0:
+	logger.setLevel(logging.DEBUG)
+	fh = logging.StreamHandler(sys.stdout)
+	fh.setLevel(logging.DEBUG)
+	logger.addHandler(fh)
+logger.debug('Loaded '+ __file__)
+
 
 user_config_ids = ["sandbox-user", "production-user"]
 
@@ -26,11 +37,11 @@ class credentialutil(object):
     credential_list: dictionary key=string, value=credentials
     """
     _credential_list = {}
-    
-     
+
+
     @classmethod
     def load(cls, app_config_path):
-        logging.info("Loading credential configuration file at: %s", app_config_path)
+        logger.debug("Loading credential configuration file at: %s", app_config_path)
         with open(app_config_path, 'r') as f:
             if app_config_path.endswith('.yaml') or app_config_path.endswith('.yml'):
                 content = yaml.load(f)
@@ -43,9 +54,9 @@ class credentialutil(object):
     @classmethod
     def _iterate(cls, content):
         for key in content:
-            logging.debug("Environment attempted: %s", key)
-            
-            if key in [environment.PRODUCTION.config_id, environment.SANDBOX.config_id]:       
+            logger.debug("Environment attempted: %s", key)
+
+            if key in [environment.PRODUCTION.config_id, environment.SANDBOX.config_id]:
                 client_id = content[key]['appid']
                 dev_id = content[key]['devid']
                 client_secret = content[key]['certid']
@@ -54,18 +65,18 @@ class credentialutil(object):
                 app_info = credentials(client_id, client_secret, dev_id, ru_name)
                 cls._credential_list.update({key: app_info})
 
-            
+
 
     @classmethod
     def get_credentials(cls, env_type):
         """
         env_config_id: environment.PRODUCTION.config_id or environment.SANDBOX.config_id
-        """    
+        """
         if len(cls._credential_list) == 0:
             msg = "No environment loaded from configuration file"
-            logging.error(msg)
+            logger.error(msg)
             raise CredentialNotLoadedError(msg)
         return cls._credential_list[env_type.config_id]
-    
+
 class CredentialNotLoadedError(Exception):
     pass
