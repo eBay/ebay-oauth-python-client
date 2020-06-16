@@ -41,7 +41,7 @@ class credentialutil(object):
 
     @classmethod
     def load(cls, app_config_path):
-        logger.info("Loading credential configuration file at: %s", app_config_path)
+        logger.debug("Loading credential configuration file at: %s", app_config_path)
         with open(app_config_path, 'r') as f:
             if app_config_path.endswith('.yaml') or app_config_path.endswith('.yml'):
                 content = yaml.load(f)
